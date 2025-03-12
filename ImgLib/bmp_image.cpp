@@ -16,26 +16,32 @@ const static uint32_t INFO_HEADER_SIZE = 40;
 const static uint32_t FILE_HEADER_SIZE = 14;
 
 const static uint32_t TOTAL_HEAD_SIZE = INFO_HEADER_SIZE + FILE_HEADER_SIZE;
+const static uint32_t DPI_300 = 11811;
+const static uint32_t COMPRESSION = 0;
+const static uint32_t SINGLE_PLANE_COUNT = 1;
+const static uint32_t STANDART_BITS_PER_PIXEL = 24;
+const static uint32_t SIGNIFICANT_COLORS_COUNT = 0x10000000;
+const static array<char, 2> BMP_SIGNATURE{'B', 'M'};
 
 PACKED_STRUCT_BEGIN BitmapInfoHeader {
     // поля заголовка Bitmap Info Header
     uint32_t head_size = INFO_HEADER_SIZE;
     uint32_t image_width;
     uint32_t image_height;
-    uint16_t plane_count = 1;
-    uint16_t bits_per_pixel = 24;
-    uint32_t compress_type = 0;
+    uint16_t plane_count = SINGLE_PLANE_COUNT;
+    uint16_t bits_per_pixel = STANDART_BITS_PER_PIXEL;
+    uint32_t compress_type = COMPRESSION;
     uint32_t data_size;
-    uint32_t horiz_dens = 11811;
-    uint32_t vert_dens = 11811;
+    uint32_t horizontal_density = DPI_300;
+    uint32_t vertical_density = DPI_300;
     uint32_t used_colors_count = 0;
-    uint32_t signif_colors_count = 0x1000000;
+    uint32_t signif_colors_count = SIGNIFICANT_COLORS_COUNT;
 }
 PACKED_STRUCT_END
 
 PACKED_STRUCT_BEGIN BitmapFileHeader {
     // поля заголовка Bitmap File Header
-    array<char, 2> sign = {'B', 'M'};
+    array<char, 2> sign = BMP_SIGNATURE;
     uint32_t   total_size;
     uint32_t  reserved = 0;
     uint32_t data_step = TOTAL_HEAD_SIZE;
